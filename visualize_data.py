@@ -13,6 +13,7 @@ from detectron2.data.build import filter_images_with_few_keypoints
 from detectron2.utils.logger import setup_logger
 from detectron2.utils.visualizer import Visualizer
 
+import register_chicken_datasets
 
 def setup(args):
     cfg = get_cfg()
@@ -33,6 +34,7 @@ def parse_args(in_args=None):
         help="visualize the annotations or the data loader (with pre-processing)",
     )
     parser.add_argument("--config-file", metavar="FILE", help="path to config file")
+    parser.add_argument("--dataset-name", default="None", help="data split to visualize")
     parser.add_argument("--output-dir", default="./", help="path to output directory")
     parser.add_argument("--show", action="store_true", help="show output in a window")
     parser.add_argument(
@@ -52,7 +54,7 @@ if __name__ == "__main__":
 
     dirname = args.output_dir
     os.makedirs(dirname, exist_ok=True)
-    metadata = MetadataCatalog.get(cfg.DATASETS.TRAIN[0])
+    metadata = MetadataCatalog.get(args.dataset_name)
 
     def output(vis, fname):
         if args.show:
@@ -84,7 +86,7 @@ if __name__ == "__main__":
                 )
                 output(vis, str(per_image["image_id"]) + ".jpg")
     else:
-        dicts = list(chain.from_iterable([DatasetCatalog.get(k) for k in cfg.DATASETS.TRAIN]))
+        dicts = list(chain.from_iterable([DatasetCatalog.get(args.dataset_name)]))
         if cfg.MODEL.KEYPOINT_ON:
             dicts = filter_images_with_few_keypoints(dicts, 1)
         for dic in tqdm.tqdm(dicts):

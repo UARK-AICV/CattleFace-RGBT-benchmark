@@ -1,8 +1,9 @@
 # d24chicken
+detectron2 for chicken
 
 ## Installation
 ```
-conda create -n aistron python=3.8 -y
+conda create -n d24chicken python=3.8 -y
 conda activate aistron
 conda install pytorch==1.10.0 torchvision==0.11.0 cudatoolkit=11.3 -c pytorch
 
@@ -18,4 +19,9 @@ pip install opencv-python
 ```
 
 ## Usage
-
+### 1. Visualize datasets
+```bash
+python visualize_data.py --dataset-name back_chicken_keypoints_test \
+                         --output-dir ../data/outtest/viz_back_kp_test/ \ 
+                         --source annotation \
+```
