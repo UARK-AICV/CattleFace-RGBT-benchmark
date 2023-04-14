@@ -21,19 +21,21 @@ def register_back_chicken_keypoints_dataset(root):
 
 def register_side_chicken_keypoints_dataset(root):
     root = os.path.join(root, 'side_chicken_keypoints/coco_format')
-    register_coco_instances("side_chicken_keypoints_train", {},
-        os.path.join(root, "annotations/train.json"),
-        os.path.join(root, "images")
-    )
-    
-    meta = MetadataCatalog.get('side_chicken_keypoints_train')
-    meta.thing_classes = ['side_chicken']
-    meta.keypoint_names = ['beak','comb','backofhead','chest','back','starttail','endtail','rightfoot','leftfoot']
-    meta.keypoint_connection_rules = [
-        ['beak', 'comb', RED], ['comb', 'backofhead', RED], ['backofhead', 'chest', RED],\
-        ['chest', 'back', RED], ['back', 'starttail', RED], ['starttail', 'endtail', RED],\
-        ['endtail', 'rightfoot', RED], ['endtail', 'leftfoot', RED], ['rightfoot', 'leftfoot', RED]
-    ]
+    splits = ['train', 'test']
+    for split in splits:
+        register_coco_instances("side_chicken_keypoints_{}".format(split), {},
+            os.path.join(root, "annotations/{}.json".format(split)),
+            os.path.join(root, "{}_imgs".format(split))
+        )
+        
+        meta = MetadataCatalog.get('side_chicken_keypoints_train')
+        meta.thing_classes = ['side_chicken']
+        meta.keypoint_names = ['beak','comb','backofhead','chest','back','starttail','endtail','rightfoot','leftfoot']
+        meta.keypoint_connection_rules = [
+            ['beak', 'comb', RED], ['comb', 'backofhead', RED], ['backofhead', 'chest', RED],\
+            ['chest', 'back', RED], ['back', 'starttail', RED], ['starttail', 'endtail', RED],\
+            ['endtail', 'rightfoot', RED], ['endtail', 'leftfoot', RED], ['rightfoot', 'leftfoot', RED]
+        ]
 
 
 def register_toy_chicken_keypoints_dataset(root):

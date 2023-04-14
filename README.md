@@ -21,7 +21,9 @@ pip install opencv-python
 ## Usage
 ### 1. Visualize datasets
 ```bash
-python visualize_data.py --dataset-name back_chicken_keypoints_test \
-                         --output-dir ../data/outtest/viz_back_kp_test/ \ 
-                         --source annotation \
+export CHICKEN_DATASETS=../data/datasets/ # the path to the root folder contain the datasets
+
+python visualize_data.py --dataset-name back_chicken_keypoints_test \ # the dataset name
+                         --output-dir ../data/outtest/viz_back_kp_test/ \ # the output dir of visualize images
+                         --source annotation \ # source of annotation
 ```
