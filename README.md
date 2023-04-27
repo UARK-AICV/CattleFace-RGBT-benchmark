@@ -1,5 +1,5 @@
 # d24chicken
-detectron2 for chicken
+detectron2 for chicken (boxes, masks, and keypoints)
 
 ## Installation
 ```
@@ -16,6 +16,9 @@ python -m pip install detectron2 -f \
 
 # cv2
 pip install opencv-python
+
+# setuptools
+pip install setuptools==59.5.0
 ```
 
 ## Usage
@@ -26,4 +29,12 @@ export CHICKEN_DATASETS=../data/datasets/ # the path to the root folder contain 
 python visualize_data.py --dataset-name back_chicken_keypoints_test \ # the dataset name
                          --output-dir ../data/outtest/viz_back_kp_test/ \ # the output dir of visualize images
                          --source annotation \ # source of annotation
+```
+### 2. Training
+Example of training keypoints dectection on back chicken dataset, using R50 FPN as backbone.
+```bash
+export CHICKEN_DATASETS=../data/datasets/ # the path to the root folder contain the datasets
+export CUDA_VISIBLE_DEVICES=0 # specify your gpu if needed
+
+python train_net.py --config-file configs/ChickenKeypoints/back_chicken_keypoints_rcnn_R_50_FPN.yaml
 ```

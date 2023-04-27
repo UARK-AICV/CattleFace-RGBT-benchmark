@@ -38,6 +38,9 @@ from detectron2.evaluation import (
 )
 from detectron2.modeling import GeneralizedRCNNWithTTA
 
+# chicken datasets
+import register_chicken_datasets
+
 
 def build_evaluator(cfg, dataset_name, output_folder=None):
     """
