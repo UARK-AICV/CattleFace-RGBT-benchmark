@@ -17,6 +17,7 @@ def register_back_chicken_keypoints_dataset(root):
         meta = MetadataCatalog.get('back_chicken_keypoints_{}'.format(split))
         meta.thing_classes = ['back_chicken']
         meta.keypoint_names =  ['p1','p2','p3','p4','p5']
+        meta.keypoint_flip_map = [['p1','p1'],['p2', 'p3'],['p4','p5']]
         meta.keypoint_connection_rules = [['p1','p2',RED], ['p1','p3',RED],['p2','p4',RED],['p3','p5',RED]]
 
 def register_side_chicken_keypoints_dataset(root):
