@@ -4,7 +4,7 @@ detectron2 for chicken (boxes, masks, and keypoints)
 ## Installation
 ```
 conda create -n d24chicken python=3.8 -y
-conda activate aistron
+conda activate d24chicken 
 conda install pytorch==1.10.0 torchvision==0.11.0 cudatoolkit=11.3 -c pytorch
 
 # coco api
