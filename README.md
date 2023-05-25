@@ -41,7 +41,7 @@ python train_net.py --config-file configs/ChickenKeypoints/back_chicken_keypoint
 
 ### 3. Testing
 Example of testing keypoints dectection on back chicken dataset, using R50 FPN as backbone.
-```
+```bash
 export CUDA_VISIBLE_DEVICES=0
 export CHICKEN_DATASETS=../data/datasets/
 
@@ -52,7 +52,7 @@ python3 train_net.py --num-gpus 1 \
         OUTPUT_DIR ../data/train_outputs/test/ 
 ```
 ### 4. Demoing
-```
+```bash
 cd demo/
 python demo.py --config-file ${config_file_path} \
   --input ${img_path}/*jpg \
