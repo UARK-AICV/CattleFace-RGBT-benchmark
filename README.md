@@ -38,3 +38,25 @@ export CUDA_VISIBLE_DEVICES=0 # specify your gpu if needed
 
 python train_net.py --config-file configs/ChickenKeypoints/back_chicken_keypoints_rcnn_R_50_FPN.yaml
 ```
+
+### 3. Testing
+Example of testing keypoints dectection on back chicken dataset, using R50 FPN as backbone.
+```
+export CUDA_VISIBLE_DEVICES=0
+export CHICKEN_DATASETS=../data/datasets/
+
+train_output_dir=../data/train_outputs/back_chicken_kp_r50_rcnn
+python3 train_net.py --num-gpus 1 \
+        --config-file configs/ChickenKeypoints/back_chicken_keypoints_rcnn_R_50_FPN.yaml \
+        --eval-only MODEL.WEIGHTS ${train_output_dir}/model_final.pth \
+        OUTPUT_DIR ../data/train_outputs/test/ 
+```
+### 4. Demoing
+```
+cd demo/
+python demo.py --config-file ${config_file_path} \
+  --input ${img_path}/*jpg \
+  --output ${output_path} \
+  --confidence-threshold 0.9 \
+  --opts MODEL.WEIGHTS ${model_path}
+```
