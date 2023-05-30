@@ -13,7 +13,7 @@ from detectron2.data.build import filter_images_with_few_keypoints
 from detectron2.utils.logger import setup_logger
 from detectron2.utils.visualizer import Visualizer
 
-import register_chicken_datasets
+import register_cattle_datasets
 
 def setup(args):
     cfg = get_cfg()
