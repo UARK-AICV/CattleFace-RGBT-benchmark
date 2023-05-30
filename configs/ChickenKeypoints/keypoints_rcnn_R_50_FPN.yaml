@@ -1,6 +1,6 @@
 _BASE_: "../Base-RCNN-FPN.yaml"
 MODEL:
-  WEIGHTS: "../data/prior_models/back_chicken_boxdet_r50_rcnn.pth"
+  # WEIGHTS: "../data/prior_models/boxdet_r50_rcnn.pth" change to "detectron2://ImageNetPretrained/MSRA/R-50.pkl" if you want to use pretrained model
   RESNETS:
     DEPTH: 50
   KEYPOINT_ON: True
@@ -16,8 +16,8 @@ MODEL:
     # Therefore we increase it to 1500 per-image.
     POST_NMS_TOPK_TRAIN: 1500
 DATASETS:
-  TRAIN: ("back_chicken_keypoints_train",)
-  TEST: ("back_chicken_keypoints_test",)
+  TRAIN: ("keypoints_train",)
+  TEST: ("keypoints_test",)
 TEST:
   KEYPOINT_OKS_SIGMAS: [0.1,0.1,0.1,0.1,0.1]
 OUTPUT_DIR: ../data/train_outputs/test/

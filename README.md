@@ -26,7 +26,7 @@ pip install setuptools==59.5.0
 ```bash
 export CHICKEN_DATASETS=../data/datasets/ # the path to the root folder contain the datasets
 
-python visualize_data.py --dataset-name back_chicken_keypoints_test \ # the dataset name
+python visualize_data.py --dataset-name keypoints_test \ # the dataset name
                          --output-dir ../data/outtest/viz_back_kp_test/ \ # the output dir of visualize images
                          --source annotation \ # source of annotation
 ```
@@ -36,7 +36,7 @@ Example of training keypoints dectection on back chicken dataset, using R50 FPN 
 export CHICKEN_DATASETS=../data/datasets/ # the path to the root folder contain the datasets
 export CUDA_VISIBLE_DEVICES=0 # specify your gpu if needed
 
-python train_net.py --config-file configs/ChickenKeypoints/back_chicken_keypoints_rcnn_R_50_FPN.yaml
+python train_net.py --config-file configs/ChickenKeypoints/keypoints_rcnn_R_50_FPN.yaml
 ```
 
 ### 3. Testing
@@ -45,9 +45,9 @@ Example of testing keypoints dectection on back chicken dataset, using R50 FPN a
 export CUDA_VISIBLE_DEVICES=0
 export CHICKEN_DATASETS=../data/datasets/
 
-train_output_dir=../data/train_outputs/back_chicken_kp_r50_rcnn
+train_output_dir=../data/train_outputs/kp_r50_rcnn
 python3 train_net.py --num-gpus 1 \
-        --config-file configs/ChickenKeypoints/back_chicken_keypoints_rcnn_R_50_FPN.yaml \
+        --config-file configs/ChickenKeypoints/keypoints_rcnn_R_50_FPN.yaml \
         --eval-only MODEL.WEIGHTS ${train_output_dir}/model_final.pth \
         OUTPUT_DIR ../data/train_outputs/test/ 
 ```
