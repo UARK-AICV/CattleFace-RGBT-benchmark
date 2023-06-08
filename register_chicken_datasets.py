@@ -37,6 +37,7 @@ def register_side_chicken_keypoints_dataset(root):
             ['chest', 'back', RED], ['back', 'starttail', RED], ['starttail', 'endtail', RED],\
             ['endtail', 'rightfoot', RED], ['endtail', 'leftfoot', RED], ['rightfoot', 'leftfoot', RED]
         ]
+        meta.keypoint_flip_map = []
 
 
 def register_toy_chicken_keypoints_dataset(root):
