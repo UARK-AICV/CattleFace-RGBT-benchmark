@@ -12,7 +12,6 @@ from detectron2.data import detection_utils as utils
 from detectron2.data.build import filter_images_with_few_keypoints
 from detectron2.utils.logger import setup_logger
 from detectron2.utils.visualizer import Visualizer
-
 import register_chicken_datasets
 
 def setup(args):
@@ -92,5 +91,37 @@ if __name__ == "__main__":
         for dic in tqdm.tqdm(dicts):
             img = utils.read_image(dic["file_name"], "RGB")
             visualizer = Visualizer(img, metadata=metadata, scale=scale)
+
+            # Draw annotations on the image
             vis = visualizer.draw_dataset_dict(dic)
+
+            # Get the annotations from the current dictionary
+            annotations = dic.get("annotations")
+
+            if annotations is not None:
+                # Retrieve the class labels, bounding boxes, and keypoints from the annotations
+                boxes = []
+                keypoints = []
+                for annotation in annotations:
+                    boxes = annotation["bbox"]
+                    keypoints = annotation["keypoints"]
+
+                if metadata.thing_classes == ['side_chicken']:
+                    label_text = ['beak','comb','backofhead','chest','back','starttail','endtail','leftfoot','rightfoot']
+                if metadata.thing_classes == ['back_chicken']:
+                    label_text = ['p1', 'p2', 'p3', 'p4', 'p5']
+
+                # Add text labels to the keypoints
+                for i in range(0, len(keypoints), 3):
+                    x, y, v = keypoints[i:i+3]
+                    if v > 0:
+                        label_index = i // 3
+                        label = label_text[label_index]
+                        vis = visualizer.draw_text(label, (x, y - 15))
+
+
+
+
+
+            # Call the output function to show or save the visualization
             output(vis, os.path.basename(dic["file_name"]))
