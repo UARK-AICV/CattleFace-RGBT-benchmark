@@ -99,17 +99,14 @@ if __name__ == "__main__":
             annotations = dic.get("annotations")
 
             if annotations is not None:
-                # Retrieve the class labels, bounding boxes, and keypoints from the annotations
+                # Retrieve the bounding boxes and keypoints from the annotations
                 boxes = []
                 keypoints = []
                 for annotation in annotations:
                     boxes = annotation["bbox"]
                     keypoints = annotation["keypoints"]
 
-                if metadata.thing_classes == ['side_chicken']:
-                    label_text = ['beak','comb','backofhead','chest','back','starttail','endtail','leftfoot','rightfoot']
-                if metadata.thing_classes == ['back_chicken']:
-                    label_text = ['p1', 'p2', 'p3', 'p4', 'p5']
+                label_text = metadata.keypoint_names
 
                 # Add text labels to the keypoints
                 for i in range(0, len(keypoints), 3):
@@ -118,10 +115,6 @@ if __name__ == "__main__":
                         label_index = i // 3
                         label = label_text[label_index]
                         vis = visualizer.draw_text(label, (x, y - 15))
-
-
-
-
 
             # Call the output function to show or save the visualization
             output(vis, os.path.basename(dic["file_name"]))

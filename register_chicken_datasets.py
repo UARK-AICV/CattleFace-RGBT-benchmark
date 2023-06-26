@@ -29,9 +29,9 @@ def register_side_chicken_keypoints_dataset(root):
             os.path.join(root, "{}_imgs".format(split))
         )
         
-        meta = MetadataCatalog.get('side_chicken_keypoints_train')
+        meta = MetadataCatalog.get('side_chicken_keypoints_{}'.format(split))
         meta.thing_classes = ['side_chicken']
-        meta.keypoint_names = ['beak','comb','backofhead','chest','back','starttail','endtail','rightfoot','leftfoot']
+        meta.keypoint_names = ['beak','comb','backofhead','chest','back','starttail','endtail','leftfoot','rightfoot']
         meta.keypoint_connection_rules = [
             ['beak', 'comb', RED], ['comb', 'backofhead', RED], ['backofhead', 'chest', RED],\
             ['chest', 'back', RED], ['back', 'starttail', RED], ['starttail', 'endtail', RED],\
