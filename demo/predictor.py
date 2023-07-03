@@ -49,6 +49,12 @@ class VisualizationDemo(object):
         # Convert image from OpenCV BGR format to Matplotlib RGB format.
         image = image[:, :, ::-1]
         visualizer = Visualizer(image, self.metadata, instance_mode=self.instance_mode)
+        # Add text labels for keypoints
+        label_text = []
+        if self.metadata.name == 'side_chicken_keypoints_test':
+                label_text = ['beak','comb','backofhead','chest','back','starttail','endtail','leftfoot','rightfoot']
+        if self.metadata.name == 'back_chicken_keypoints_test':
+                label_text = ['p1', 'p2', 'p3', 'p4', 'p5']
         if "panoptic_seg" in predictions:
             panoptic_seg, segments_info = predictions["panoptic_seg"]
             vis_output = visualizer.draw_panoptic_seg_predictions(
@@ -62,6 +68,15 @@ class VisualizationDemo(object):
             if "instances" in predictions:
                 instances = predictions["instances"].to(self.cpu_device)
                 vis_output = visualizer.draw_instance_predictions(predictions=instances)
+                 # Draw text labels for keypoints
+                keypoints = instances.pred_keypoints
+                for i in range(keypoints.shape[0]):
+                    for j in range(keypoints.shape[1]):
+                        x, y, v = keypoints[i, j]
+                        if v > 0:
+                            label_index = j
+                            label = label_text[label_index]
+                            vis_output = visualizer.draw_text(label, (x, y - 15))
 
         return predictions, vis_output
 
