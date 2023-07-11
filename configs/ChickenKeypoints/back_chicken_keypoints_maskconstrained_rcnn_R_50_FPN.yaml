@@ -1,0 +1,9 @@
+_BASE_: "./back_chicken_keypoints_rcnn_R_50_FPN.yaml"
+MODEL:
+  ROI_KEYPOINT_HEAD:
+    NAME: ConstrainedKRCNNConvDeconvUpsampleHead
+    CONSTRAINED_TYPE: mask
+  MASK_ON: True
+INPUT:
+  MASK_FORMAT: bitmask
+OUTPUT_DIR: ../data/train_outputs/test/
