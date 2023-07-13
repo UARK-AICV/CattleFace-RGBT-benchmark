@@ -9,6 +9,9 @@ import time
 import warnings
 import cv2
 import tqdm
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import PIL.Image as Image
 
 from detectron2.config import get_cfg
 from detectron2.data.detection_utils import read_image
@@ -33,6 +36,7 @@ def setup_cfg(args):
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = args.confidence_threshold
     cfg.MODEL.PANOPTIC_FPN.COMBINE.INSTANCES_CONFIDENCE_THRESH = args.confidence_threshold
     cfg.freeze()
+
     return cfg
 
 
@@ -109,7 +113,12 @@ if __name__ == "__main__":
             # use PIL, to be consistent with evaluation
             img = read_image(path, format="BGR")
             start_time = time.time()
-            predictions, visualized_output = demo.run_on_image(img)
+            predictions, visualized_output, heatmaps, bbox = demo.run_on_image(img)
+            x_min, y_min, x_max, y_max = bbox[0]
+            x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
+            # Calculate width and height
+            bbox_width = x_max - x_min
+            bbox_height = y_max - y_min
             logger.info(
                 "{}: {} in {:.2f}s".format(
                     path,
@@ -124,10 +133,30 @@ if __name__ == "__main__":
                 if os.path.isdir(args.output):
                     assert os.path.isdir(args.output), args.output
                     out_filename = os.path.join(args.output, os.path.basename(path))
+                    heatmaps_out_filename = os.path.join(args.output + '_heatmaps', os.path.basename(path))
+                    #Remove the extension from masks_out_filename
+                    heatmaps_out_filename = heatmaps_out_filename[:-4]
                 else:
                     assert len(args.input) == 1, "Please specify a directory with args.output"
                     out_filename = args.output
+                    heatmaps_out_filename = args.output + '_heatmaps'
                 visualized_output.save(out_filename)
+                #Save heatmaps overlayed on the image
+                for i in range(len(heatmaps)):
+                    heatmap = heatmaps[i]
+                    normalized_heatmap = (heatmap - np.min(heatmap)) / (np.max(heatmap) - np.min(heatmap))
+                    heatmap_colormap = cm.get_cmap('jet')
+                    heatmap_rgb = heatmap_colormap(normalized_heatmap)
+                    heatmap_image = Image.fromarray(np.uint8(heatmap_rgb * 255))
+                    resized_heatmap = heatmap_image.resize((bbox_width, bbox_height))
+                    resized_heatmap.putalpha(100)
+                    img_rgba = img.copy()
+                    img_rgba = cv2.cvtColor(img_rgba, cv2.COLOR_BGR2RGBA)
+                    overlay_image = Image.new("RGBA", (img.shape[1], img.shape[0]), (0, 0, 0, 0))
+                    overlay_image.paste(resized_heatmap, (x_min, y_min))
+                    result_image = Image.alpha_composite(Image.fromarray(img_rgba), overlay_image)
+                    result_image.save(heatmaps_out_filename + '_' + str(i) + '.png')
+   
             else:
                 cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
                 cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
