@@ -5,11 +5,19 @@ import multiprocessing as mp
 from collections import deque
 import cv2
 import torch
-
+import matplotlib.pyplot as plt
+import os
+import sys
 from detectron2.data import MetadataCatalog
 from detectron2.engine.defaults import DefaultPredictor
 from detectron2.utils.video_visualizer import VideoVisualizer
 from detectron2.utils.visualizer import ColorMode, Visualizer
+
+current_directory = os.path.dirname(os.path.abspath(__file__))
+relative_path = os.path.join(current_directory, '..')
+sys.path.append(relative_path)
+import register_chicken_datasets
+
 
 
 class VisualizationDemo(object):
@@ -49,6 +57,9 @@ class VisualizationDemo(object):
         # Convert image from OpenCV BGR format to Matplotlib RGB format.
         image = image[:, :, ::-1]
         visualizer = Visualizer(image, self.metadata, instance_mode=self.instance_mode)
+        # Add text labels for keypoints
+        label_text = []
+        label_text = self.metadata.keypoint_names
         if "panoptic_seg" in predictions:
             panoptic_seg, segments_info = predictions["panoptic_seg"]
             vis_output = visualizer.draw_panoptic_seg_predictions(
@@ -62,8 +73,28 @@ class VisualizationDemo(object):
             if "instances" in predictions:
                 instances = predictions["instances"].to(self.cpu_device)
                 vis_output = visualizer.draw_instance_predictions(predictions=instances)
+                #Extract bounding box, keypoints, and extract heatmaps
+                bbox = instances.pred_boxes.tensor.detach().cpu().numpy()
+                keypoints = instances.pred_keypoints
+                heatmap = instances.pred_keypoint_heatmaps.detach().cpu().numpy()
 
-        return predictions, vis_output
+                heatmaps_list = []
+                #Draw text labels for keypoints
+                for i in range(keypoints.shape[0]):
+                    for j in range(keypoints.shape[1]):
+                        x, y, v = keypoints[i, j]
+                        if v > 0:
+                            label_index = j
+                            label = label_text[label_index]
+                            vis_output = visualizer.draw_text(label, (x, y - 15))
+                #Create a list of heatmaps
+                for i in range(heatmap.shape[0]):
+                    for j in range(heatmap.shape[1]):
+                        heatmaps = heatmap[i, j, :, :]
+                        plt.imshow(heatmaps)
+                        heatmaps_list.append(heatmaps)
+                          
+        return predictions, vis_output, heatmaps_list, bbox
 
     def _frame_from_video(self, video):
         while video.isOpened():
