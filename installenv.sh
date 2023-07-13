@@ -3,6 +3,7 @@ eval "$(conda shell.bash hook)"
 rm -rf d2cattle/
 conda create --prefix d2cattle/ python=3.8 -y
 conda activate d2cattle/
+conda install -c conda-forge cudatoolkit-dev=11.3 -y
 conda install pytorch==1.10.0 torchvision==0.11.0 cudatoolkit=11.3 -c pytorch -y
 
 # coco api
