@@ -63,7 +63,13 @@ def constrained_keypoint_rcnn_loss(pred_keypoint_logits, instances, normalizer, 
     valid_gt_masks = gt_masks[valid]
 
     if constrained_type == 'mask':
+        tmp = valid_pred_keypoint_logits.clone()
         valid_pred_keypoint_logits[valid_gt_masks == False] = -100
+
+        # # find where the keypoint heat map is set to -100 but the location is where the ground
+        # # truth keypoint is located. Set this back to the original value so it doesn't affect the loss.
+        valid_pred_keypoint_logits[torch.arange(len(valid)), valid_keypoint_targets] = \
+                tmp[torch.arange(len(valid)), valid_keypoint_targets]
 
     keypoint_loss = F.cross_entropy(
         valid_pred_keypoint_logits, valid_keypoint_targets, reduction="sum"
