@@ -1,0 +1,29 @@
+_BASE_: "../Base-RCNN-FPN.yaml"
+MODEL:
+  #WEIGHTS: "../data/prior_models/back_chicken_boxdet_r50_rcnn.pth"
+  RESNETS:
+    DEPTH: 50
+  KEYPOINT_ON: True
+  ROI_HEADS:
+    NUM_CLASSES: 1
+  ROI_BOX_HEAD:
+    SMOOTH_L1_BETA: 0.5  # Keypoint AP degrades (though box AP improves) when using plain L1 loss
+  ROI_KEYPOINT_HEAD:
+    NUM_KEYPOINTS: 9
+  RPN:
+    # Detectron1 uses 2000 proposals per-batch, but this option is per-image in detectron2.
+    # 1000 proposals per-image is found to hurt box AP.
+    # Therefore we increase it to 1500 per-image.
+    POST_NMS_TOPK_TRAIN: 1500
+DATASETS:
+  TRAIN: ("side_chicken_keypoints_train",)
+  TEST: ("side_chicken_keypoints_test",)
+TEST:
+  KEYPOINT_OKS_SIGMAS: [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1]
+  EVAL_PERIOD: 2500
+OUTPUT_DIR: ../data/train_outputs/side_chicken_keypoints_rcnn_R_50_FPN_400150/
+SOLVER:
+  BASE_LR: 0.001
+  IMS_PER_BATCH: 2
+  MAX_ITER: 50000
+  CHECKPOINT_PERIOD: 2500
