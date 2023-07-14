@@ -1,6 +1,6 @@
 _BASE_: "../Base-RCNN-FPN.yaml"
 MODEL:
-  # WEIGHTS: "../data/prior_models/boxdet_r50_rcnn.pth" change to "detectron2://ImageNetPretrained/MSRA/R-50.pkl" if you want to use pretrained model
+  WEIGHTS: "/home/ptthang/d2.cattle/data/train_outputs/test/model_final.pth" # change to "detectron2://ImageNetPretrained/MSRA/R-50.pkl" if you want to use pretrained model
   RESNETS:
     DEPTH: 50
   KEYPOINT_ON: True
@@ -9,7 +9,7 @@ MODEL:
   ROI_BOX_HEAD:
     SMOOTH_L1_BETA: 0.5  # Keypoint AP degrades (though box AP improves) when using plain L1 loss
   ROI_KEYPOINT_HEAD:
-    NUM_KEYPOINTS: 13
+    NUM_KEYPOINTS: 13 # num of keypoints
   RPN:
     # Detectron1 uses 2000 proposals per-batch, but this option is per-image in detectron2.
     # 1000 proposals per-image is found to hurt box AP.
@@ -19,7 +19,7 @@ DATASETS:
   TRAIN: ("keypoints_train",)
   TEST: ("keypoints_test",)
 TEST:
-  KEYPOINT_OKS_SIGMAS: [0.1,0.1,0.1,0.1,0.1]
+  KEYPOINT_OKS_SIGMAS: [0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8] # length of list should be equal to num of keypoints
 OUTPUT_DIR: data/train_outputs/test/
 SOLVER:
   BASE_LR: 0.001

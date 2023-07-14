@@ -58,3 +58,8 @@ python demo.py --config-file ${config_file_path} \
   --confidence-threshold 0.9 \
   --opts MODEL.WEIGHTS ${model_path}
 ```
+
+
+
+
+python visualize_json_results.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test

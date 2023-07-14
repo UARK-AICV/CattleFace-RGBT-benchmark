@@ -13,5 +13,14 @@
             "console": "integratedTerminal",
             "justMyCode": false
         },
+        {
+            "name": "Vis",
+            "type": "python",
+            "request": "launch",
+            "program": "visualize_json_results.py",
+            "args": ["--input","/home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json", "--output", "data/inference/vis", "--dataset", "keypoints_test"],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
     ]
 }
