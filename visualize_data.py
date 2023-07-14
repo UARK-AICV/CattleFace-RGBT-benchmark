@@ -12,12 +12,8 @@ from detectron2.data import detection_utils as utils
 from detectron2.data.build import filter_images_with_few_keypoints
 from detectron2.utils.logger import setup_logger
 from detectron2.utils.visualizer import Visualizer
-<<<<<<< HEAD
-
 import register_cattle_datasets
-=======
-import register_chicken_datasets
->>>>>>> d498d92a9f7f27939a722ce7d2bfe19a5834eccf
+
 
 def setup(args):
     cfg = get_cfg()
