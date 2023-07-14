@@ -40,6 +40,10 @@ from detectron2.modeling import GeneralizedRCNNWithTTA
 
 import register_cattle_datasets
 
+from config import add_custom_config
+# custom model
+from modeling import ConstrainedKRCNNConvDeconvUpsampleHead
+
 
 
 def build_evaluator(cfg, dataset_name, output_folder=None):
