@@ -38,7 +38,16 @@ from detectron2.evaluation import (
 )
 from detectron2.modeling import GeneralizedRCNNWithTTA
 
+<<<<<<< HEAD
 import register_cattle_datasets
+=======
+# chicken datasets
+import register_chicken_datasets
+# custom configs
+from config import add_custom_config
+# custom model
+from modeling import ConstrainedKRCNNConvDeconvUpsampleHead
+>>>>>>> d498d92a9f7f27939a722ce7d2bfe19a5834eccf
 
 
 def build_evaluator(cfg, dataset_name, output_folder=None):
@@ -106,6 +115,7 @@ def setup(args):
     Create configs and perform basic setups.
     """
     cfg = get_cfg()
+    add_custom_config(cfg)
     cfg.merge_from_file(args.config_file)
     cfg.merge_from_list(args.opts)
     cfg.freeze()
