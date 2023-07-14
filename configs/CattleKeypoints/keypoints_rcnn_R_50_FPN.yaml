@@ -9,7 +9,7 @@ MODEL:
   ROI_BOX_HEAD:
     SMOOTH_L1_BETA: 0.5  # Keypoint AP degrades (though box AP improves) when using plain L1 loss
   ROI_KEYPOINT_HEAD:
-    NUM_KEYPOINTS: 5
+    NUM_KEYPOINTS: 13
   RPN:
     # Detectron1 uses 2000 proposals per-batch, but this option is per-image in detectron2.
     # 1000 proposals per-image is found to hurt box AP.
@@ -20,7 +20,7 @@ DATASETS:
   TEST: ("keypoints_test",)
 TEST:
   KEYPOINT_OKS_SIGMAS: [0.1,0.1,0.1,0.1,0.1]
-OUTPUT_DIR: ../data/train_outputs/test/
+OUTPUT_DIR: data/train_outputs/test/
 SOLVER:
   BASE_LR: 0.001
   IMS_PER_BATCH: 2

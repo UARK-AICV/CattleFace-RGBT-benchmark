@@ -11,7 +11,7 @@
             "program": "train_net.py",
             "args": ["--config-file", "configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml"],
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": false
         },
     ]
 }

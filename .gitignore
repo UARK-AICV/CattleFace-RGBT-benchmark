@@ -4,3 +4,4 @@ test.json
 train.json
 d2cattle/
 *.jpg
+data*

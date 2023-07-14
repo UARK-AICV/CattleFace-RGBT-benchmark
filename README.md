@@ -26,9 +26,7 @@ pip install setuptools==59.5.0
 ```bash
 export CATTLE_DATASETS=../data/datasets/ # the path to the root folder contain the datasets
 
-python visualize_data.py --dataset-name keypoints_test \ # the dataset name
-                         --output-dir ../data/outtest/viz_back_kp_test/ \ # the output dir of visualize images
-                         --source annotation \ # source of annotation
+python visualize_data.py --dataset-name keypoints_test --output-dir data/outtest/viz_back_kp_test/ --source annotation 
 ```
 ### 2. Training
 Example of training keypoints dectection on back cattle dataset, using R50 FPN as backbone.
