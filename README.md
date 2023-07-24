@@ -24,30 +24,26 @@ pip install setuptools==59.5.0
 ## Usage
 ### 1. Visualize datasets
 ```bash
-export CATTLE_DATASETS=../data/datasets/ # the path to the root folder contain the datasets
-
 python visualize_data.py --dataset-name keypoints_test --output-dir data/outtest/viz_back_kp_test/ --source annotation 
 ```
 ### 2. Training
 Example of training keypoints dectection on back cattle dataset, using R50 FPN as backbone.
 ```bash
-export CATTLE_DATASETS=../data/datasets/ # the path to the root folder contain the datasets
-export CUDA_VISIBLE_DEVICES=0 # specify your gpu if needed
-
 python train_net.py --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml
 ```
 
 ### 3. Testing
 Example of testing keypoints dectection on back cattle dataset, using R50 FPN as backbone.
 ```bash
-export CUDA_VISIBLE_DEVICES=0
-export CATTLE_DATASETS=../data/datasets/
-
-python3 train_net.py --num-gpus 1 \
-        --config-file configs/cattleKeypoints/keypoints_rcnn_R_50_FPN.yaml \
-        --eval-only MODEL.WEIGHTS data/train_outputs/test/model_final.pth \
-        OUTPUT_DIR data/train_outputs/test/ 
+python train_net.py --num-gpus 1 --config-file configs/cattleKeypoints/keypoints_rcnn_R_50_FPN.yaml --eval-only MODEL.WEIGHTS data/train_outputs/test/model_final.pth OUTPUT_DIR data/train_outputs/test/ 
 ```
+
+### 3.5. Inference
+```bash
+python infer_net.py --num-gpus 1 --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml  MODEL.WEIGHTS data/train_outputs/test/model_final.pth OUTPUT_DIR data/train_outputs/test/   DATASETS.TEST "('keypoints_test_infer',)"
+```
+
+
 ### 4. Demoing
 ```bash
 cd demo/
@@ -58,7 +54,11 @@ python demo.py --config-file ${config_file_path} \
   --opts MODEL.WEIGHTS ${model_path}
 ```
 
-
-
-
+### 5. Visualize results
+```bash
+# For set with annotations
 python visualize_json_results.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test
+
+# For set without annotations
+python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test_infer
+```

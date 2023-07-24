@@ -14,6 +14,15 @@
             "justMyCode": false
         },
         {
+            "name": "Python Eval",
+            "type": "python",
+            "request": "launch",
+            "program": "infer_net.py",
+            "args": ["--config-file", "configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml", "MODEL.WEIGHTS", "data/train_outputs/test/model_final.pth", "OUTPUT_DIR", "data/train_outputs/test/", "DATASETS.TEST", "('keypoints_test_infer',)"],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "Vis",
             "type": "python",
             "request": "launch",
