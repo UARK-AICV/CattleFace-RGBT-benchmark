@@ -43,11 +43,10 @@ Example of testing keypoints dectection on back cattle dataset, using R50 FPN as
 export CUDA_VISIBLE_DEVICES=0
 export CATTLE_DATASETS=../data/datasets/
 
-train_output_dir=../data/train_outputs/kp_r50_rcnn
 python3 train_net.py --num-gpus 1 \
         --config-file configs/cattleKeypoints/keypoints_rcnn_R_50_FPN.yaml \
-        --eval-only MODEL.WEIGHTS ${train_output_dir}/model_final.pth \
-        OUTPUT_DIR ../data/train_outputs/test/ 
+        --eval-only MODEL.WEIGHTS data/train_outputs/test/model_final.pth \
+        OUTPUT_DIR data/train_outputs/test/ 
 ```
 ### 4. Demoing
 ```bash

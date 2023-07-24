@@ -1,6 +1,6 @@
 _BASE_: "../Base-RCNN-FPN.yaml"
 MODEL:
-  WEIGHTS: "/home/ptthang/d2.cattle/data/train_outputs/test/model_final.pth" # change to "detectron2://ImageNetPretrained/MSRA/R-50.pkl" if you want to use pretrained model
+  # WEIGHTS: "/home/ptthang/d2.cattle/data/train_outputs/test/model_final.pth" # change to "detectron2://ImageNetPretrained/MSRA/R-50.pkl" if you want to use pretrained model
   RESNETS:
     DEPTH: 50
   KEYPOINT_ON: True
