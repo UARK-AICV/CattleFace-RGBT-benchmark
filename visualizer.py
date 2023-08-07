@@ -16,6 +16,85 @@ from PIL import Image
 from detectron2.data import MetadataCatalog
 from detectron2.structures import BitMasks, Boxes, BoxMode, Keypoints, PolygonMasks, RotatedBoxes
 from detectron2.utils.file_io import PathManager
+_COLORS = np.array(
+    [
+        0.000, 0.447, 0.741,
+        0.850, 0.325, 0.098,
+        0.929, 0.694, 0.125,
+        0.494, 0.184, 0.556,
+        0.466, 0.674, 0.188,
+        0.301, 0.745, 0.933,
+        0.635, 0.078, 0.184,
+        0.300, 0.300, 0.300,
+        0.600, 0.600, 0.600,
+        1.000, 0.000, 0.000,
+        1.000, 0.500, 0.000,
+        0.749, 0.749, 0.000,
+        0.000, 1.000, 0.000,
+        0.000, 0.000, 1.000,
+        0.667, 0.000, 1.000,
+        0.333, 0.333, 0.000,
+        0.333, 0.667, 0.000,
+        0.333, 1.000, 0.000,
+        0.667, 0.333, 0.000,
+        0.667, 0.667, 0.000,
+        0.667, 1.000, 0.000,
+        1.000, 0.333, 0.000,
+        1.000, 0.667, 0.000,
+        1.000, 1.000, 0.000,
+        0.000, 0.333, 0.500,
+        0.000, 0.667, 0.500,
+        0.000, 1.000, 0.500,
+        0.333, 0.000, 0.500,
+        0.333, 0.333, 0.500,
+        0.333, 0.667, 0.500,
+        0.333, 1.000, 0.500,
+        0.667, 0.000, 0.500,
+        0.667, 0.333, 0.500,
+        0.667, 0.667, 0.500,
+        0.667, 1.000, 0.500,
+        1.000, 0.000, 0.500,
+        1.000, 0.333, 0.500,
+        1.000, 0.667, 0.500,
+        1.000, 1.000, 0.500,
+        0.000, 0.333, 1.000,
+        0.000, 0.667, 1.000,
+        0.000, 1.000, 1.000,
+        0.333, 0.000, 1.000,
+        0.333, 0.333, 1.000,
+        0.333, 0.667, 1.000,
+        0.333, 1.000, 1.000,
+        0.667, 0.000, 1.000,
+        0.667, 0.333, 1.000,
+        0.667, 0.667, 1.000,
+        0.667, 1.000, 1.000,
+        1.000, 0.000, 1.000,
+        1.000, 0.333, 1.000,
+        1.000, 0.667, 1.000,
+        0.333, 0.000, 0.000,
+        0.500, 0.000, 0.000,
+        0.667, 0.000, 0.000,
+        0.833, 0.000, 0.000,
+        1.000, 0.000, 0.000,
+        0.000, 0.167, 0.000,
+        0.000, 0.333, 0.000,
+        0.000, 0.500, 0.000,
+        0.000, 0.667, 0.000,
+        0.000, 0.833, 0.000,
+        0.000, 1.000, 0.000,
+        0.000, 0.000, 0.167,
+        0.000, 0.000, 0.333,
+        0.000, 0.000, 0.500,
+        0.000, 0.000, 0.667,
+        0.000, 0.000, 0.833,
+        0.000, 0.000, 1.000,
+        0.000, 0.000, 0.000,
+        0.143, 0.143, 0.143,
+        0.857, 0.857, 0.857,
+        1.000, 1.000, 1.000
+    ]
+).astype(np.float32).reshape(-1, 3)
+# fmt: on
 
 def random_color(rgb=False, maximum=255):
     """
@@ -41,7 +120,7 @@ _LARGE_MASK_AREA_THRESH = 120000
 _OFF_WHITE = (1.0, 1.0, 240.0 / 255)
 _BLACK = (0, 0, 0)
 _RED = (1.0, 0, 0)
-
+_GREEN = (0, 1.0, 0)
 _KEYPOINT_THRESHOLD = 0.05
 
 
@@ -701,56 +780,56 @@ class Visualizer:
         for i in range(num_instances):
             color = assigned_colors[i]
             if boxes is not None:
-                self.draw_box(boxes[i], edge_color=color)
+                self.draw_box(boxes[i], edge_color='g')
 
             if masks is not None:
                 for segment in masks[i].polygons:
                     self.draw_polygon(segment.reshape(-1, 2), color, alpha=alpha)
 
-            if labels is not None:
-                # first get a box
-                if boxes is not None:
-                    x0, y0, x1, y1 = boxes[i]
-                    text_pos = (x0, y0)  # if drawing boxes, put text on the box corner.
-                    horiz_align = "left"
-                elif masks is not None:
-                    # skip small mask without polygon
-                    if len(masks[i].polygons) == 0:
-                        continue
+            # if labels is not None:
+            #     # first get a box
+            #     if boxes is not None:
+            #         x0, y0, x1, y1 = boxes[i]
+            #         text_pos = (x0, y0)  # if drawing boxes, put text on the box corner.
+            #         horiz_align = "left"
+            #     elif masks is not None:
+            #         # skip small mask without polygon
+            #         if len(masks[i].polygons) == 0:
+            #             continue
 
-                    x0, y0, x1, y1 = masks[i].bbox()
+            #         x0, y0, x1, y1 = masks[i].bbox()
 
-                    # draw text in the center (defined by median) when box is not drawn
-                    # median is less sensitive to outliers.
-                    text_pos = np.median(masks[i].mask.nonzero(), axis=1)[::-1]
-                    horiz_align = "center"
-                else:
-                    continue  # drawing the box confidence for keypoints isn't very useful.
-                # for small objects, draw text at the side to avoid occlusion
-                instance_area = (y1 - y0) * (x1 - x0)
-                if (
-                    instance_area < _SMALL_OBJECT_AREA_THRESH * self.output.scale
-                    or y1 - y0 < 40 * self.output.scale
-                ):
-                    if y1 >= self.output.height - 5:
-                        text_pos = (x1, y0)
-                    else:
-                        text_pos = (x0, y1)
+            #         # draw text in the center (defined by median) when box is not drawn
+            #         # median is less sensitive to outliers.
+            #         text_pos = np.median(masks[i].mask.nonzero(), axis=1)[::-1]
+            #         horiz_align = "center"
+            #     else:
+            #         continue  # drawing the box confidence for keypoints isn't very useful.
+            #     # for small objects, draw text at the side to avoid occlusion
+            #     instance_area = (y1 - y0) * (x1 - x0)
+            #     if (
+            #         instance_area < _SMALL_OBJECT_AREA_THRESH * self.output.scale
+            #         or y1 - y0 < 40 * self.output.scale
+            #     ):
+            #         if y1 >= self.output.height - 5:
+            #             text_pos = (x1, y0)
+            #         else:
+            #             text_pos = (x0, y1)
 
-                height_ratio = (y1 - y0) / np.sqrt(self.output.height * self.output.width)
-                lighter_color = self._change_color_brightness(color, brightness_factor=0.7)
-                font_size = (
-                    np.clip((height_ratio - 0.02) / 0.08 + 1, 1.2, 2)
-                    * 0.5
-                    * self._default_font_size
-                )
-                self.draw_text(
-                    labels[i],
-                    text_pos,
-                    color=lighter_color,
-                    horizontal_alignment=horiz_align,
-                    font_size=font_size,
-                )
+            #     height_ratio = (y1 - y0) / np.sqrt(self.output.height * self.output.width)
+            #     lighter_color = self._change_color_brightness(color, brightness_factor=0.7)
+            #     font_size = (
+            #         np.clip((height_ratio - 0.02) / 0.08 + 1, 1.2, 2)
+            #         * 0.5
+            #         * self._default_font_size
+            #     )
+            #     self.draw_text(
+            #         labels[i],
+            #         text_pos,
+            #         color=lighter_color,
+            #         horizontal_alignment=horiz_align,
+            #         font_size=font_size,
+            #     )
 
         # draw keypoints
         if keypoints is not None:
@@ -816,7 +895,7 @@ class Visualizer:
             # draw keypoint
             x, y, prob = keypoint
             if prob > self.keypoint_threshold:
-                self.draw_circle((x, y), color=_RED)
+                self.draw_circle((x, y), color=_GREEN, name=idx+1)
                 if keypoint_names:
                     keypoint_name = keypoint_names[idx]
                     visible[keypoint_name] = (x, y)
@@ -842,7 +921,7 @@ class Visualizer:
             # draw line from nose to mid-shoulder
             nose_x, nose_y = visible.get("nose", (None, None))
             if nose_x is not None:
-                self.draw_line([nose_x, mid_shoulder_x], [nose_y, mid_shoulder_y], color=_RED)
+                self.draw_line([nose_x, mid_shoulder_x], [nose_y, mid_shoulder_y], color=_GREEN)
 
             try:
                 # draw line from mid-shoulder to mid-hip
@@ -852,7 +931,7 @@ class Visualizer:
                 pass
             else:
                 mid_hip_x, mid_hip_y = (lh_x + rh_x) / 2, (lh_y + rh_y) / 2
-                self.draw_line([mid_hip_x, mid_shoulder_x], [mid_hip_y, mid_shoulder_y], color=_RED)
+                self.draw_line([mid_hip_x, mid_shoulder_x], [mid_hip_y, mid_shoulder_y], color=_GREEN)
         return self.output
 
     """
@@ -897,12 +976,13 @@ class Visualizer:
             text,
             size=font_size * self.output.scale,
             family="sans-serif",
-            bbox={"facecolor": "black", "alpha": 0.8, "pad": 0.7, "edgecolor": "none"},
+            bbox={"facecolor": "black", "alpha": 0.1, "pad": 0.7, "edgecolor": "none"},
             verticalalignment="top",
             horizontalalignment=horizontal_alignment,
             color=color,
             zorder=10,
             rotation=rotation,
+            fontweight="bold",
         )
         return self.output
 
@@ -995,7 +1075,7 @@ class Visualizer:
 
         return self.output
 
-    def draw_circle(self, circle_coord, color, radius=3):
+    def draw_circle(self, circle_coord, color, radius=8, name=1):
         """
         Args:
             circle_coord (list(int) or tuple(int)): contains the x and y coordinates
@@ -1011,6 +1091,8 @@ class Visualizer:
         self.output.ax.add_patch(
             mpl.patches.Circle(circle_coord, radius=radius, fill=True, color=color)
         )
+        # add text to circle
+        self.draw_text(name, (x + radius*3, y - radius*3), color=color, font_size=20)
         return self.output
 
     def draw_line(self, x_data, y_data, color, linestyle="-", linewidth=None):

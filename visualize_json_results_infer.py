@@ -88,3 +88,6 @@ if __name__ == "__main__":
         vis_pred = vis.draw_instance_predictions(predictions).get_image()
 
         cv2.imwrite(os.path.join(args.output, basename), vis_pred[:, :, ::-1])
+
+
+        
