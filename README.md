@@ -41,6 +41,8 @@ python train_net.py --num-gpus 1 --config-file configs/cattleKeypoints/keypoints
 ### 3.5. Inference
 ```bash
 python infer_net.py --num-gpus 1 --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml  MODEL.WEIGHTS data/train_outputs/test/model_final.pth OUTPUT_DIR data/train_outputs/test/   DATASETS.TEST "('keypoints_test_infer',)"
+python infer_net.py --num-gpus 1 --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml  MODEL.WEIGHTS data/train_outputs/test/model_final.pth OUTPUT_DIR data/train_outputs/train/   DATASETS.TEST "('keypoints_train',)"
+
 ```
 
 
@@ -60,5 +62,10 @@ python demo.py --config-file ${config_file_path} \
 python visualize_json_results.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test
 
 # For set without annotations
-python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test_infer
+python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis_test --dataset keypoints_test_infer
+python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/train/inference/coco_instances_results.json --output data/inference/vis_train --dataset keypoints_train
+
+# to merge into videos (with consecutive frames)
+python visualize_json_results_infer_merge_video.py --output data/inference/vis_test
+python visualize_json_results_infer_merge_video.py --output data/inference/vis_train
 ```
