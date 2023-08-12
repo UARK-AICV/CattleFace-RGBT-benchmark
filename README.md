@@ -24,7 +24,7 @@ pip install setuptools==59.5.0
 ## Usage
 ### 1. Visualize datasets
 ```bash
-python visualize_data.py --dataset-name keypoints_test --output-dir data/outtest/viz_back_kp_test/ --source annotation 
+python visualize_data.py --dataset-name keypoints_train --output-dir data/outtest/viz_back_kp_test/ --source annotation 
 ```
 ### 2. Training
 Example of training keypoints dectection on back cattle dataset, using R50 FPN as backbone.
@@ -89,3 +89,5 @@ data/
 Before doing this, you should backup the old data folder. Then run the original script like normal. Or you can create new data, but remember to change all the config and python scripts too. 
 
 You can use the notebook `make_new_data.ipynb` to convert any new data into the required format.
+Then you should run step 1 to make sure the folder can be visualized correctly.
+Then you can train it.
