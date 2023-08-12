@@ -5,3 +5,6 @@ train.json
 d2cattle/
 *.jpg
 data*
+*.json
+*.zip
+*.mp4

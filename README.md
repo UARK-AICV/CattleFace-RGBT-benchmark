@@ -69,3 +69,23 @@ python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/trai
 python visualize_json_results_infer_merge_video.py --output data/inference/vis_test
 python visualize_json_results_infer_merge_video.py --output data/inference/vis_train
 ```
+
+
+### New data
+- download the json annotation file for each folder
+- merge them into one json file, and split into train and test json
+- split them into train and test images
+
+The final structure must be
+```
+data/
+  train_imgs/
+    *.jpg
+  test_imgs/
+    *.jpg
+  annotations/
+    *.json
+```
+Before doing this, you should backup the old data folder. Then run the original script like normal. Or you can create new data, but remember to change all the config and python scripts too. 
+
+You can use the notebook `make_new_data.ipynb` to convert any new data into the required format.
