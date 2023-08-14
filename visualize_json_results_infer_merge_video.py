@@ -18,29 +18,6 @@ from visualizer import Visualizer
 import register_cattle_datasets
 
 
-def create_instances(predictions, image_size):
-    ret = Instances(image_size)
-
-    score = np.asarray([x["score"] for x in predictions])[[0]]
-    chosen = (score > args.conf_threshold).nonzero()[0]
-    score = score[chosen]
-    bbox = np.asarray([predictions[i]["bbox"] for i in chosen]).reshape(-1, 4)[[0]]
-    bbox = BoxMode.convert(bbox, BoxMode.XYWH_ABS, BoxMode.XYXY_ABS)
-    keypoints = np.asarray([predictions[i]["keypoints"] for i in chosen])
-    # keep only the highest scoring keypoint
-    keypoints = Keypoints(keypoints.reshape(-1, 13, 3)[[0]])
-    labels = np.asarray([dataset_id_map(predictions[i]["category_id"]) for i in chosen])[[0]]
-
-    ret.scores = score
-    ret.pred_boxes = bbox
-    ret.pred_classes = labels
-    ret.pred_keypoints = keypoints
-
-    try:
-        ret.pred_masks = [predictions[i]["segmentation"] for i in chosen]
-    except KeyError:
-        pass
-    return ret
 
 
 if __name__ == "__main__":

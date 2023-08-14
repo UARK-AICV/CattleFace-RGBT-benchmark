@@ -91,3 +91,21 @@ Before doing this, you should backup the old data folder. Then run the original 
 You can use the notebook `make_new_data.ipynb` to convert any new data into the required format.
 Then you should run step 1 to make sure the folder can be visualized correctly.
 Then you can train it.
+
+visualize
+```bash
+python train_net.py --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml
+python train_net.py --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN_withaligned.yaml
+
+
+python infer_net.py --num-gpus 1 --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN_withaligned.yaml  MODEL.WEIGHTS data/train_outputs/test/model_final.pth OUTPUT_DIR data/train_outputs/test/   DATASETS.TEST "('keypoints_test_infer',)"
+python infer_net.py --num-gpus 1 --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN_withaligned.yaml  MODEL.WEIGHTS data/train_outputs/test/model_final.pth OUTPUT_DIR data/train_outputs/train/   DATASETS.TEST "('keypoints_train',)"
+
+python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference3/vis_test --dataset keypoints_test_infer
+python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/train/inference/coco_instances_results.json --output data/inference3/vis_train --dataset keypoints_train
+
+
+python visualize_json_results_infer_merge_video.py --output data/inference2/vis_test
+python visualize_json_results_infer_merge_video.py --output data/inference3/vis_test
+
+```
