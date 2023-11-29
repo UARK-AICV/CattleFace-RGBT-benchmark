@@ -62,7 +62,7 @@ python demo.py --config-file ${config_file_path} \
 python visualize_json_results.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test
 
 # For set without annotations
-python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis_test --dataset keypoints_test_infer
+python visualize_json_results_infer.py --input /home/ethan/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis_test --dataset keypoints_test_infer
 python visualize_json_results_infer.py --input /home/ptthang/d2.cattle/data/train_outputs/train/inference/coco_instances_results.json --output data/inference/vis_train --dataset keypoints_train
 
 # to merge into videos (with consecutive frames)
