@@ -6,6 +6,7 @@ MODEL:
   KEYPOINT_ON: True
   ROI_HEADS:
     NUM_CLASSES: 1
+    SCORE_THRESH_TEST: 0.0
   ROI_BOX_HEAD:
     SMOOTH_L1_BETA: 0.5  # Keypoint AP degrades (though box AP improves) when using plain L1 loss
   ROI_KEYPOINT_HEAD:

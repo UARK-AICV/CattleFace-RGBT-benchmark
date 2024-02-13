@@ -18,3 +18,4 @@ pip install opencv-python
 
 # setuptools
 pip install setuptools==59.5.0
+pip install ipython
