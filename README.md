@@ -109,3 +109,8 @@ python visualize_json_results_infer_merge_video.py --output data/inference2/vis_
 python visualize_json_results_infer_merge_video.py --output data/inference3/vis_test
 
 ```
+
+Sometimes the model is not confident enough, they will result in empty predictions. In this case, you can try to 
+- increase the number of training sample and train again 
+- Make sure the training and testing set are of the same distribution (looks similar)
+
