@@ -114,3 +114,8 @@ Sometimes the model is not confident enough, they will result in empty predictio
 - increase the number of training sample and train again 
 - Make sure the training and testing set are of the same distribution (looks similar)
 
+However, if you still want to force predictions anyway, you can change this field in the configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml
+```yaml
+   SCORE_THRESH_TEST: 0.0
+```
+By default of detectron2, it is 0.05. By forcing it 0.0, you get low confident prediction too. Maybe we need them, maybe not. 
