@@ -7,8 +7,8 @@ RED = (0,255,0)
 
 def make_test_infer(root, target_folder='test_imgs', sample_annotation_path='annotations/test.json'):
     infer_annotation_path = os.path.join(root, 'annotations/test_infer.json')
-    if os.path.exists(infer_annotation_path):
-        return
+    # if os.path.exists(infer_annotation_path):
+    #     return
     import json
     test_infer_path = os.path.join(root, target_folder)
     with open(os.path.join(root, sample_annotation_path)) as f:
@@ -59,10 +59,11 @@ def register_keypoints_dataset(root):
         # meta.keypoint_connection_rules = [['p1','p2',RED], ['p1','p3',RED],['p2','p4',RED],['p4','p5',RED], ['p5','p6',RED],['p6','p7',RED],['p7','p8',RED],['p7','p11',RED],['p11','p13',RED],['p11','p10',RED],
                                         #   ['p10','p12',RED],['p12','p13',RED],['p3','p12',RED],['p3','p9',RED]]
 
-    make_test_infer(root, target_folder='test_imgs', sample_annotation_path='annotations/test.json')
+    test_infer_folder = 'test_imgs'
+    make_test_infer(root, target_folder=test_infer_folder, sample_annotation_path='annotations/test.json')
     register_coco_instances("keypoints_test_infer", {},
         os.path.join(root, "annotations/test_infer.json"),
-        os.path.join(root, "test_imgs")   
+        os.path.join(root, test_infer_folder)   
     )
     meta = MetadataCatalog.get('keypoints_test_infer')
     meta.thing_classes = ['cattle']

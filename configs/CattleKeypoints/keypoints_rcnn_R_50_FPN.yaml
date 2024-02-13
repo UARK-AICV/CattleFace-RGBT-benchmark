@@ -15,6 +15,7 @@ MODEL:
     # 1000 proposals per-image is found to hurt box AP.
     # Therefore we increase it to 1500 per-image.
     POST_NMS_TOPK_TRAIN: 1500
+    
 DATASETS:
   TRAIN: ("keypoints_train",)
   TEST: ("keypoints_test",)

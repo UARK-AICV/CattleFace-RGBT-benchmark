@@ -26,13 +26,8 @@ from detectron2.config import get_cfg
 from detectron2.data import MetadataCatalog
 from detectron2.engine import DefaultTrainer, default_argument_parser, default_setup, hooks, launch
 from detectron2.evaluation import (
-    CityscapesInstanceEvaluator,
-    CityscapesSemSegEvaluator,
     COCOEvaluator,
-    COCOPanopticEvaluator,
     DatasetEvaluators,
-    LVISEvaluator,
-    PascalVOCDetectionEvaluator,
     SemSegEvaluator,
     verify_results,
 )
