@@ -18,6 +18,7 @@ You may want to write your own script with your datasets and other customization
 
 import logging
 import os
+import shutil
 from collections import OrderedDict
 
 import detectron2.utils.comm as comm
@@ -39,6 +40,34 @@ from config import add_custom_config
 # custom model
 from modeling import ConstrainedKRCNNConvDeconvUpsampleHead
 
+
+
+def move_dir(src_path, dest_path, new_name):
+    new_path = f"{dest_path}/{new_name}"
+    shutil.move(f"{src_path}", new_path)
+
+
+
+if os.path.isdir("/home/ethan/d2.cattle/datasets/keypoints/coco_format/test_imgs"):
+    shutil.rmtree("/home/ethan/d2.cattle/datasets/keypoints/coco_format/test_imgs")
+frames = "datasets/keypoints/coco_format/Frames/"
+files = os.listdir(frames)
+num = files[0]
+
+src = frames + num
+
+done = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/done/" + num
+shutil.copytree(src, done)
+
+dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/"
+move_dir(src,dst,"test_imgs")
+
+
+src = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/image_jsons/" + num + ".json"
+dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/annotations/test_infer.json"
+if os.path.isfile(dst):
+    os.remove(dst)
+shutil.copyfile(src,dst)
 
 
 def build_evaluator(cfg, dataset_name, output_folder=None):
@@ -140,3 +169,9 @@ if __name__ == "__main__":
         dist_url=args.dist_url,
         args=(args,),
     )
+
+exec(open('json_convert.py').read())
+
+src = "/home/ethan/d2.cattle/data/train_outputs/test/inference/metadata_csharp.json"
+dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/inferences/" + num + ".json"
+shutil.copyfile(src,dst)

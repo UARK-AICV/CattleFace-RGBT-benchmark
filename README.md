@@ -59,7 +59,7 @@ python demo.py --config-file ${config_file_path} \
 ### 5. Visualize results
 ```bash
 # For set with annotations
-python visualize_json_results.py --input /home/ptthang/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test
+python visualize_json_results.py --input /home/ethan/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis --dataset keypoints_test
 
 # For set without annotations
 python visualize_json_results_infer.py --input /home/ethan/d2.cattle/data/train_outputs/test/inference/coco_instances_results.json --output data/inference/vis_test --dataset keypoints_test_infer
