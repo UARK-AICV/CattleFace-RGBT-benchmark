@@ -44,6 +44,7 @@ python infer_net.py --num-gpus 1 --config-file configs/CattleKeypoints/keypoints
 python infer_net.py --num-gpus 1 --config-file configs/CattleKeypoints/keypoints_rcnn_R_50_FPN.yaml  MODEL.WEIGHTS data/train_outputs/test/model_final.pth OUTPUT_DIR data/train_outputs/train/   DATASETS.TEST "('keypoints_train',)"
 
 ```
+For larger batches, paths.json can be loaded with a list of paths to videos desired for predictions. The inference.bash file can then be altered for the number of videos and ran. The predictions for each video will then be stored in "datasets/keypoints/coco_format/annotations/inferences"
 
 
 ### 4. Demoing
@@ -119,3 +120,25 @@ However, if you still want to force predictions anyway, you can change this fiel
    SCORE_THRESH_TEST: 0.0
 ```
 By default of detectron2, it is 0.05. By forcing it 0.0, you get low confident prediction too. Maybe we need them, maybe not. 
+
+### Training data used 
+
+Link to folder containing dataset for training with rougly 4600 images, 2300 Thermal, 2300 RGB
+https://uark-my.sharepoint.com/:f:/g/personal/ejc012_uark_edu/Ev2g78XWrEFPrqXuJahTTScBL7DnSBzUGW0GyDTx4JVFCg?e=fuSZq2
+
+### Correction Tool
+
+In the KeyPointCorrector folder is the source code for a windows app used to manually correct data by drag and dropping each point.
+
+Use "browse button" to select the folder you wish to correct. This folder should follow the structure and naming convention
+
+your_folder/
+  images/
+    *.jpg
+  metadata_csharp.json
+
+Correct points and then use the "Next" and "Previous" buttons to navigate through each image in the folder. Additionally you can mark an unwanted image for discard by clicking the "Discard" button which will then update the status of the image. 
+
+Once you are finished you can click the "Save Button" this will give you the option to select a location for the json file modified from metadata_charp according to your corrections. Additionally, any images marked for discard will be removed from the images folder.
+
+The tool also contains hot-keys to move points quicker. This is done by holing the key asscociated with the desired point and then clicking. This will bring the point to your cursors location. 1-9 correspond to their given numbers while q-r on the keyboard correspond to 10-13.

@@ -43,6 +43,43 @@ from config import add_custom_config
 # custom model
 from modeling import ConstrainedKRCNNConvDeconvUpsampleHead
 
+
+
+with open("paths.json", 'r') as x:
+    paths = json.load(x)
+
+src = paths.pop()
+
+with open("paths.json", 'w') as y:
+    json.dump(paths,y, indent = 4)
+
+def removeLeadingZeros(str): 
+    # Regex to remove leading  
+    # zeros from a string  
+    regex = "^0+(?!$)"
+  
+    # Replaces the matched  
+    # value with given string  
+    str = re.sub(regex, "", str) 
+  
+    return str
+
+def move_dir(src_path, dest_path, new_name):
+    new_path = f"{dest_path}/{new_name}"
+    shutil.move(f"{src_path}", new_path)
+
+
+dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/test_imgs"
+if os.path.isdir(dst):
+    shutil.rmtree(dst)
+os.mkdir(dst)
+thermal_frame_extract.video_to_frames(src,dst)
+exec(open('image_folder_to_test_infer.py').read())
+
+date = os.path.dirname(src)
+date = os.path.dirname(date)
+date = os.path.basename(date)
+
 def build_evaluator(cfg, dataset_name, output_folder=None):
     """
     Create evaluator(s) for a given dataset.
@@ -142,3 +179,19 @@ if __name__ == "__main__":
         dist_url=args.dist_url,
         args=(args,),
     )
+
+exec(open('json_convert.py').read())
+
+
+
+src_infer = "/home/ethan/d2.cattle/data/train_outputs/test/inference/metadata_csharp.json"
+dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/annotations/inferences/" + date
+if not os.path.exists(dst):
+    os.mkdir(dst)
+
+num = os.path.basename(src)
+num = num[:4]
+num = removeLeadingZeros(num)
+
+dst = os.path.join(dst, num + ".json")
+shutil.copyfile(src_infer,dst)
