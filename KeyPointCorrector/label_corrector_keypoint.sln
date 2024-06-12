@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "label_corrector_keypoint", "label_corrector_keypoint\label_corrector_keypoint.csproj", "{C3B2DB7D-209D-4478-9881-893F98CDF744}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3B2DB7D-209D-4478-9881-893F98CDF744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B2DB7D-209D-4478-9881-893F98CDF744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B2DB7D-209D-4478-9881-893F98CDF744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B2DB7D-209D-4478-9881-893F98CDF744}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7809B027-DA46-4221-8D68-39C5ED1CD2D2}
+	EndGlobalSection
+EndGlobal
