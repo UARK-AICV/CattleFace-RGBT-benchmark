@@ -20,6 +20,9 @@ import logging
 import os
 import shutil
 from collections import OrderedDict
+import thermal_frame_extract
+import json
+import re
 
 import detectron2.utils.comm as comm
 from detectron2.checkpoint import DetectionCheckpointer
@@ -42,33 +45,40 @@ from modeling import ConstrainedKRCNNConvDeconvUpsampleHead
 
 
 
+with open("paths.json", 'r') as x:
+    paths = json.load(x)
+
+src = paths.pop()
+
+with open("paths.json", 'w') as y:
+    json.dump(paths,y, indent = 4)
+
+def removeLeadingZeros(str): 
+    # Regex to remove leading  
+    # zeros from a string  
+    regex = "^0+(?!$)"
+  
+    # Replaces the matched  
+    # value with given string  
+    str = re.sub(regex, "", str) 
+  
+    return str
+
 def move_dir(src_path, dest_path, new_name):
     new_path = f"{dest_path}/{new_name}"
     shutil.move(f"{src_path}", new_path)
 
 
+dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/test_imgs"
+if os.path.isdir(dst):
+    shutil.rmtree(dst)
+os.mkdir(dst)
+thermal_frame_extract.video_to_frames(src,dst)
+exec(open('image_folder_to_test_infer.py').read())
 
-if os.path.isdir("/home/ethan/d2.cattle/datasets/keypoints/coco_format/test_imgs"):
-    shutil.rmtree("/home/ethan/d2.cattle/datasets/keypoints/coco_format/test_imgs")
-frames = "datasets/keypoints/coco_format/Frames/"
-files = os.listdir(frames)
-num = files[0]
-
-src = frames + num
-
-done = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/done/" + num
-shutil.copytree(src, done)
-
-dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/"
-move_dir(src,dst,"test_imgs")
-
-
-src = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/image_jsons/" + num + ".json"
-dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/annotations/test_infer.json"
-if os.path.isfile(dst):
-    os.remove(dst)
-shutil.copyfile(src,dst)
-
+date = os.path.dirname(src)
+date = os.path.dirname(date)
+date = os.path.basename(date)
 
 def build_evaluator(cfg, dataset_name, output_folder=None):
     """
@@ -172,6 +182,16 @@ if __name__ == "__main__":
 
 exec(open('json_convert.py').read())
 
-src = "/home/ethan/d2.cattle/data/train_outputs/test/inference/metadata_csharp.json"
-dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/inferences/" + num + ".json"
-shutil.copyfile(src,dst)
+
+
+src_infer = "/home/ethan/d2.cattle/data/train_outputs/test/inference/metadata_csharp.json"
+dst = "/home/ethan/d2.cattle/datasets/keypoints/coco_format/annotations/inferences/" + date
+if not os.path.exists(dst):
+    os.mkdir(dst)
+
+num = os.path.basename(src)
+num = num[:4]
+num = removeLeadingZeros(num)
+
+dst = os.path.join(dst, num + ".json")
+shutil.copyfile(src_infer,dst)

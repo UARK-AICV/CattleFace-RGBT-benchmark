@@ -11,7 +11,7 @@ DATASETS:
   PROPOSAL_FILES_TEST: []
   PROPOSAL_FILES_TRAIN: []
   TEST:
-  - keypoints_train
+  - keypoints_test_infer
   TRAIN:
   - keypoints_train
 GLOBAL:

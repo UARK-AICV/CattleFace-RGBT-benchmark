@@ -2,8 +2,6 @@ import json
 import os
 
 
-
-
 images = []
 annotations = []
 categories = [{"supercategory": "cow", "id": 1, "name": "cattle", "keypoints": ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10", "p11", "p12", "p13"], "skeleton": [[1, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7], [6, 8], [7, 9], [8, 10], [9, 11], [10, 12], [11, 13], [12, 13]]}]
