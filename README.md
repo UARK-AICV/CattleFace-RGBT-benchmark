@@ -122,9 +122,7 @@ However, if you still want to force predictions anyway, you can change this fiel
 By default of detectron2, it is 0.05. By forcing it 0.0, you get low confident prediction too. Maybe we need them, maybe not. 
 
 ### Training data used 
-
-Link to folder containing dataset for training with rougly 4600 images, 2300 Thermal, 2300 RGB
-https://teams.microsoft.com/l/message/19:10021105-2a95-4947-8217-d0067486853f_27080b86-e94f-49a7-8c4d-a1d3a02bd446@unq.gbl.spaces/1751395527400?context=%7B%22contextType%22%3A%22chat%22%7D
+https://uark-my.sharepoint.com/personal/ejc012_uark_edu/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fejc012%5Fuark%5Fedu%2FDocuments%2FDocuments%2FCow%20Project%2FTraining%20Data&ct=1751396330813&or=Teams%2DHL&ga=1&LOF=1
 
 ### Correction Tool
 
