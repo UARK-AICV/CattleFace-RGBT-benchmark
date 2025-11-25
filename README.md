@@ -122,7 +122,7 @@ However, if you still want to force predictions anyway, you can change this fiel
 By default of detectron2, it is 0.05. By forcing it 0.0, you get low confident prediction too. Maybe we need them, maybe not. 
 
 ### Training data used 
-https://uark-my.sharepoint.com/personal/ejc012_uark_edu/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fejc012%5Fuark%5Fedu%2FDocuments%2FDocuments%2FCow%20Project%2FTraining%20Data&ct=1751396330813&or=Teams%2DHL&ga=1&LOF=1
+[https://uark-my.sharepoint.com/:f:/g/personal/ejc012_uark_edu/IgD9oO_F1qxBT66l7iWoU00nAS-w50gc1BltBsg08eCVRQo](https://uark-my.sharepoint.com/:f:/g/personal/ejc012_uark_edu/IgD9oO_F1qxBT66l7iWoU00nAS-w50gc1BltBsg08eCVRQo) 
 
 ### Correction Tool
 
